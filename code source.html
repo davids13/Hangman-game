@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="utf-8"/>
+    <title>Game Hangman Game</title>
+</head>
+<body>
+    <script>
+        // design the game
+        /*
+            1 - pick a random word
+            2 - take the player´s guess
+            3 - quit the game if theplayer wants
+            4 - check that the player´s guess is a valid
+            5 - keep track of letters the player has guessed
+            6 - show the player their progress
+            7 - finish when the player has guessed the word
+        */
+
+        // pseudocode to design the game
+        /*
+            - PICK a random word
+            - WHILE the word has not been guessed{
+                SHOW the player heir current progress
+                GET a guess from the player
+
+                - IF the player wants to quit the game{
+                    QUIT the game
+                }
+                - ELSE IF the guess is not a single letter{
+                    TELL the player to pick a single letter
+                }
+                - ELSE{
+                    IF the guess is in word{
+                        UPDATE the player´s progress with guess
+                    }
+                }
+            }
+            - CONGRATULATIONS the player on guessing the word
+        */
+
+        // choosing a random word
+        var words = ['javascript', 'monkey', 'amazing', 'pancake', 'futebol', 'gym', 'portugal']; // sorce of secret word
+
+        var word = words[Math.floor(Math.random() * words.length)]; // pick up a random word from array
+
+        var erro = 0;
+
+        // creating the answer array
+        var answerArray = []; // to fill it with underscores to match the numbers of letters in the word
+
+        for (var i = 0; i < word.length; i++) { // this loop when finishes, answerArray will be the same length as word
+            answerArray[i] = '_';
+        }
+
+        var remaingLetters = word.length; // set the length of the secret word and this var it would e use to keep track of many letter are left to be guessed.
+                                          // every time the player guess correct letter this value will be decremented by 1 for each instance of that letter in the word.
+        // coding the game loop
+        while(remaingLetters > 0){
+            var teste = false;
+
+            // show the player´s progress
+            alert(answerArray.join(' '));
+
+            // handling the player+s input
+            var guess = prompt('Guess a letter, or click Cancel to stop playing.').toLowerCase();  // mudar as letras para minuscula caso seja digitilzadas maisuculas
+
+            if(guess === null){
+                break;
+            }
+            else if(guess.length !== 1){
+                alert('Please enter a single letter.');
+            }
+            else{
+                // update the game state with the guess
+                for(var i = 0; i < word.length; i++){
+                    // verify if some letter is already in answerArray, and display an alert to user put another letter.
+                    if(guess === answerArray[i]){
+                        alert('Já digitou a letra ' + guess + '! Introduza outra letra');
+                        teste = true;
+                    }
+                    else if(guess === word[i]){
+                        answerArray[i] = guess;
+                        remaingLetters--;
+                        teste = true;
+                    }
+                }
+                // conta o número de palavras erradas
+                if(teste === false){
+                    erro += 1;
+                }
+            }
+        } // loop to keep lookinhg as LONG a remAINGlETERs > 0 remains true.
+          // the body of loop will have to update remaingLetters for every correct guess the player makes.
+          // Once he player has guesed all the letters remaingLtters will be 0 and the loop will end.
+
+          // congratulations
+          if(erro === 0){
+            alert('Congratulations!!! You finished the hangman game with ' + erro + ' incorrect letters.');
+          }
+          else{
+            alert('Not good enough... try again!');
+          }
+    </script>
+</body>
+</html>
